@@ -1,8 +1,6 @@
 import os
 from supervisely_lib.io.json import load_json_file
 import supervisely_lib as sly
-from supervisely_lib.api.module_api import ApiField
-
 
 my_app = sly.AppService()
 
@@ -26,14 +24,13 @@ def get_meta_from_dataset(api, res_dataset, dataset_id):
 def add_metadata_from_image(api: sly.Api, task_id, context, state, app_logger):
     project = api.project.get_info_by_id(PROJECT_ID)
     result_dir_name = "{}_{}".format(project.id, project.name)
-
-    RESULT_DIR = os.path.join(my_app.data_dir, result_dir_name)
+    RESULT_DIR = os.path.join(my_app.data_dir, result_dir_name, result_dir_name)
     sly.fs.mkdir(RESULT_DIR)
-    ARCHIVE_NAME = result_dir_name + ".tar.gz"
+    ARCHIVE_NAME = result_dir_name + ".tar"
     RESULT_ARCHIVE = os.path.join(my_app.data_dir, ARCHIVE_NAME)
     if DATASET_ID:
         dataset_info = api.dataset.get_info_by_id(DATASET_ID)
-        progress = sly.Progress('Get meta from images in dataset'.format(dataset_info.name), app_logger)
+        progress = sly.Progress('Get meta from images in {!r} dataset'.format(dataset_info.name), len(api.dataset.get_list(PROJECT_ID)))
         res_dataset = os.path.join(RESULT_DIR, dataset_info.name)
         sly.fs.mkdir(res_dataset)
         get_meta_from_dataset(api, res_dataset, DATASET_ID)
@@ -46,15 +43,11 @@ def add_metadata_from_image(api: sly.Api, task_id, context, state, app_logger):
             sly.fs.mkdir(res_dataset)
             get_meta_from_dataset(api, res_dataset, dataset.id)
 
+    RESULT_DIR = os.path.join(my_app.data_dir, result_dir_name)
     sly.fs.archive_directory(RESULT_DIR, RESULT_ARCHIVE)
     app_logger.info("Result directory is archived")
-
     progress.iter_done_report()
-
     remote_archive_path = "/meta_from_images/{}/{}".format(task_id, ARCHIVE_NAME)
-
-    # @TODO: uncomment only for debug
-    api.file.remove(TEAM_ID, remote_archive_path)
 
     upload_progress = []
     def _print_progress(monitor, upload_progress):
@@ -68,8 +61,6 @@ def add_metadata_from_image(api: sly.Api, task_id, context, state, app_logger):
     file_info = api.file.upload(TEAM_ID, RESULT_ARCHIVE, remote_archive_path, lambda m: _print_progress(m, upload_progress))
     app_logger.info("Uploaded to Team-Files: {!r}".format(file_info.full_storage_url))
     api.task.set_output_archive(task_id, file_info.id, ARCHIVE_NAME, file_url=file_info.full_storage_url)
-
-
 
     sly.fs.remove_dir(RESULT_DIR)
 
@@ -88,6 +79,4 @@ def main():
 
 
 if __name__ == "__main__":
-    # @TODO: uncomment only for debug
-    sly.fs.clean_dir(my_app.data_dir)
     sly.main_wrapper("main", main)
