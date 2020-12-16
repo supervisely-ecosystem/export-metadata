@@ -1,10 +1,10 @@
 {
-  "name": "download_metadata",
+  "name": "Download Images Metadata",
   "type": "app",
   "categories": [
     "Videos"
   ],
-  "description": "download_metadata",
+  "description": "Download Images Metadata from Project",
   "docker_image": "supervisely/base-py-sdk:6",
   "main_script": "src/get_metadata.py",
   "task_location": "application_sessions",
@@ -12,6 +12,7 @@
   "icon_background": "#FFFFFF",
   "headless": true,
   "context_menu": {
-    "target": ["_____"]   
+    "target": ["images_project"],
+    "context_root": "Download as" 
   }
 }
