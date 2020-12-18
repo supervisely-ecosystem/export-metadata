@@ -1,5 +1,5 @@
 <div align="center" markdown>
-<img src=""/>
+<img src="https://i.imgur.com/536Voep.png"/>
 
 # Download Images Metadata
 
@@ -29,15 +29,15 @@ Download Images metadata from project to `json` files.
 
 **Step 2**: Open context menu of your project -> `Download via App` -> `Download Images Metadata` 
 
-<img src=""/>
+<img src="https://i.imgur.com/HVBMyL9.png"/>
 
 
 ## How to use
 
-After running the application, you will be redirected to the tasks page. Once application processing has finished, your link for downloading will become available. Click on the file name to download it
+After running the application, you will be redirected to the Tasks page. Once application processing has finished, your link for downloading will become available. Click on the file name to download it
 
-<img src="" />
+<img src="https://i.imgur.com/utZ05Aj.png"/>
 
 **Note** You can also find your images metadata in Team Files->meta_from_images->task_id->`projectId_projectName.tar`
 
-<img src=""/>
+<img src="https://i.imgur.com/a5cNB5K.png"/>
