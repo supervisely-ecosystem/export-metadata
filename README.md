@@ -1,5 +1,5 @@
 <div align="center" markdown>
-<img src="https://i.imgur.com/536Voep.png"/>
+<img src="https://i.imgur.com/g7EsEGO.png"/>
 
 # Download Images Metadata
 
