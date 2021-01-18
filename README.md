@@ -25,7 +25,7 @@ Download Images metadata from project to `json` files.
 
 
 ## How To Run 
-**Step 1**: Add app to your team from [Ecosystem](https://ecosystem.supervise.ly/apps/convert-supervisely-to-yolov5-format) if it is not there.
+**Step 1**: Add app to your team from [Ecosystem](https://ecosystem.supervise.ly/apps/download_metadata) if it is not there.
 
 **Step 2**: Open context menu of your project -> `Download via App` -> `Download Images Metadata` 
 
