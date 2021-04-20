@@ -29,7 +29,7 @@ def get_meta_from_dataset(api, res_dataset, dataset_id, app_logger):
         app_logger.warn(
             f"{img_counter}/{len(images)} images in {os.path.basename(os.path.normpath(res_dataset))} dataset does not contain metadata. {img_counter} Images will be skipped.")
 
-    if img_counter == {len(images)}:
+    if img_counter == len(images):
         raise Exception("No metadata to download")
 
 
