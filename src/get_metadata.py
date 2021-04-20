@@ -33,9 +33,9 @@ def get_meta_from_dataset(api, res_dataset, dataset_id, app_logger):
         raise Exception("No metadata to download")
 
 
-@my_app.callback("download_metadata_from_project_images")
+@my_app.callback("export_project_images_metadata")
 @sly.timeit
-def download_metadata_from_project_images(api: sly.Api, task_id, context, state, app_logger):
+def export_project_images_metadata(api: sly.Api, task_id, context, state, app_logger):
     project = api.project.get_info_by_id(PROJECT_ID)
     result_dir_name = "{}_{}".format(project.id, project.name)
     RESULT_DIR = os.path.join(my_app.data_dir, result_dir_name, result_dir_name)
@@ -61,7 +61,7 @@ def download_metadata_from_project_images(api: sly.Api, task_id, context, state,
     sly.fs.archive_directory(RESULT_DIR, RESULT_ARCHIVE)
     app_logger.info("Result directory is archived")
     progress.iter_done_report()
-    remote_archive_path = "/meta_from_images/{}/{}".format(task_id, ARCHIVE_NAME)
+    remote_archive_path = "/ApplicationsData/Export-Project-Images-Metadata/{}/{}".format(task_id, ARCHIVE_NAME)
 
     upload_progress = []
     def _print_progress(monitor, upload_progress):
@@ -89,7 +89,7 @@ def main():
     })
 
     # Run application service
-    my_app.run(initial_events=[{"command": "download_metadata_from_project_images"}])
+    my_app.run(initial_events=[{"command": "export_project_images_metadata"}])
 
 
 if __name__ == "__main__":
