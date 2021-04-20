@@ -1,7 +1,7 @@
 <div align="center" markdown>
 <img src="https://i.imgur.com/g7EsEGO.png"/>
 
-# Download Images Metadata
+# Export Project Images Metadata
 
 
 <p align="center">
