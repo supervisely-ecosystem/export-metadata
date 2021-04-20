@@ -12,16 +12,29 @@ if DATASET_ID is not None:
     DATASET_ID = int(DATASET_ID)
 
 
-def get_meta_from_dataset(api, res_dataset, dataset_id):
+def get_meta_from_dataset(api, res_dataset, dataset_id, app_logger):
+    img_counter = 0
     images = api.image.get_list(dataset_id)
     for image in images:
-        res_image_meta_path = os.path.join(res_dataset, image.name + '.json')
-        sly.io.json.dump_json_file(image.meta, res_image_meta_path)
+        if len(image.meta) >= 1:
+            res_image_meta_path = os.path.join(res_dataset, image.name + '.json')
+            sly.io.json.dump_json_file(image.meta, res_image_meta_path)
+
+        if len(image.meta) == 0:
+            img_counter = img_counter + 1
+            app_logger.info(f"{image.name} in {os.path.basename(os.path.normpath(res_dataset))} dataset does not contain metadata.")
+            continue
+
+    if img_counter >= 1:
+        app_logger.warn(
+            f"{img_counter}/{len(images)} images in {os.path.basename(os.path.normpath(res_dataset))} dataset does not contain metadata. {img_counter} Images will be skipped.")
 
 
-@my_app.callback("add_metadata_from_image")
+
+
+@my_app.callback("download_metadata_from_project_images")
 @sly.timeit
-def add_metadata_from_image(api: sly.Api, task_id, context, state, app_logger):
+def download_metadata_from_project_images(api: sly.Api, task_id, context, state, app_logger):
     project = api.project.get_info_by_id(PROJECT_ID)
     result_dir_name = "{}_{}".format(project.id, project.name)
     RESULT_DIR = os.path.join(my_app.data_dir, result_dir_name, result_dir_name)
@@ -33,7 +46,7 @@ def add_metadata_from_image(api: sly.Api, task_id, context, state, app_logger):
         progress = sly.Progress('Get meta from images in {!r} dataset'.format(dataset_info.name), len(api.dataset.get_list(PROJECT_ID)))
         res_dataset = os.path.join(RESULT_DIR, dataset_info.name)
         sly.fs.mkdir(res_dataset)
-        get_meta_from_dataset(api, res_dataset, DATASET_ID)
+        get_meta_from_dataset(api, res_dataset, DATASET_ID, app_logger)
     else:
         datasets = api.dataset.get_list(PROJECT_ID)
         for dataset in datasets:
@@ -41,7 +54,7 @@ def add_metadata_from_image(api: sly.Api, task_id, context, state, app_logger):
                                     app_logger)
             res_dataset = os.path.join(RESULT_DIR, dataset.name)
             sly.fs.mkdir(res_dataset)
-            get_meta_from_dataset(api, res_dataset, dataset.id)
+            get_meta_from_dataset(api, res_dataset, dataset.id, app_logger)
 
     RESULT_DIR = os.path.join(my_app.data_dir, result_dir_name)
     sly.fs.archive_directory(RESULT_DIR, RESULT_ARCHIVE)
@@ -75,7 +88,7 @@ def main():
     })
 
     # Run application service
-    my_app.run(initial_events=[{"command": "add_metadata_from_image"}])
+    my_app.run(initial_events=[{"command": "download_metadata_from_project_images"}])
 
 
 if __name__ == "__main__":
