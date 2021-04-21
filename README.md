@@ -29,7 +29,7 @@ Export Images metadata from project to `json` files.
 
 **Step 2**: Open context menu of your project -> `Download via App` -> `Export Metadata` 
 
-<img src="https://i.imgur.com/HVBMyL9.png"/>
+<img src="https://i.imgur.com/4UfXnBy.png"/>
 
 
 ## How to use
@@ -40,4 +40,4 @@ After running the application, you will be redirected to the Tasks page. Once ap
 
 **Note** You can also find your images metadata in Team Files->ApplicationData->Export-Metadata->task_id->`projectId_projectName.tar`
 
-<img src="https://i.imgur.com/a5cNB5K.png"/>
+<img src="https://i.imgur.com/eBado89.png"/>
