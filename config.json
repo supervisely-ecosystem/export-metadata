@@ -1,11 +1,12 @@
 {
-  "name": "Download Images Metadata",
+  "name": "Export Metadata",
   "type": "app",
   "categories": [
-    "Videos"
+    "Images", 
+    "Export"
   ],
-  "description": "Download Images Metadata from Project",
-  "docker_image": "supervisely/base-py-sdk:6",
+  "description": "Export Images Metadata from Project",
+  "docker_image": "supervisely/base-py-sdk:6.1.59",
   "main_script": "src/get_metadata.py",
   "task_location": "workspace_tasks",
   "icon": "https://i.imgur.com/ajc46R7.png",
@@ -13,6 +14,6 @@
   "headless": true,
   "context_menu": {
     "target": ["images_project"],
-    "context_root": "Download as" 
+    "context_root": "Download via App" 
   }
 }
