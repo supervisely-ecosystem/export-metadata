@@ -38,6 +38,6 @@ After running the application, you will be redirected to the Tasks page. Once ap
 
 <img src="https://i.imgur.com/utZ05Aj.png"/>
 
-**Note** You can also find your images metadata in Team Files->ApplicationData->Export-Project-Images-Metadata->task_id->`projectId_projectName.tar`
+**Note** You can also find your images metadata in Team Files->ApplicationData->Export-Metadata->task_id->`projectId_projectName.tar`
 
 <img src="https://i.imgur.com/a5cNB5K.png"/>
