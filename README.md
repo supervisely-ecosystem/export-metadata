@@ -29,7 +29,7 @@ Export Images metadata from project to `json` files.
 
 **Step 2**: Open context menu of your project -> `Download via App` -> `Export Metadata` 
 
-<img src="https://i.imgur.com/4UfXnBy.png"/>
+<img src="https://i.imgur.com/4UfXnBy.png" width="600"/>
 
 
 ## How to use
