@@ -1,5 +1,5 @@
 <div align="center" markdown>
-<img src="https://i.imgur.com/g7EsEGO.png"/>
+<img src="https://i.imgur.com/segnZCF.png"/>
 
 # Export Project Images Metadata
 
