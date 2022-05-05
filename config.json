@@ -12,7 +12,10 @@
   "icon_background": "#FFFFFF",
   "headless": true,
   "context_menu": {
-    "target": ["images_project"],
-    "context_root": "Download as" 
-  }
+    "target": [
+      "images_project"
+    ],
+    "context_root": "Download as"
+  },
+  "poster": "https://i.imgur.com/segnZCF.png"
 }
