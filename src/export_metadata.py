@@ -1,8 +1,9 @@
 import os
-from supervisely_lib.io.json import load_json_file
-import supervisely_lib as sly
+from supervisely.io.json import load_json_file
+import supervisely as sly
+from supervisely.app.v1.app_service import AppService
 
-my_app = sly.AppService()
+my_app = AppService()
 
 TEAM_ID = int(os.environ['context.teamId'])
 WORKSPACE_ID = int(os.environ['context.workspaceId'])
@@ -73,8 +74,8 @@ def export_project_images_metadata(api: sly.Api, task_id, context, state, app_lo
         upload_progress[0].set_current_value(monitor.bytes_read)
 
     file_info = api.file.upload(TEAM_ID, RESULT_ARCHIVE, remote_archive_path, lambda m: _print_progress(m, upload_progress))
-    app_logger.info("Uploaded to Team-Files: {!r}".format(file_info.full_storage_url))
-    api.task.set_output_archive(task_id, file_info.id, ARCHIVE_NAME, file_url=file_info.full_storage_url)
+    app_logger.info("Uploaded to Team-Files: {!r}".format(file_info.storage_path))
+    api.task.set_output_archive(task_id, file_info.id, ARCHIVE_NAME, file_url=file_info.storage_path)
 
     sly.fs.remove_dir(RESULT_DIR)
 
