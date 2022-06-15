@@ -2,7 +2,8 @@
   "name": "Export Metadata",
   "type": "app",
   "categories": [
-    "Export"
+    "images",
+    "export"
   ],
   "description": "Export Images Metadata from Project",
   "docker_image": "supervisely/base-py-sdk:6.23.0",
