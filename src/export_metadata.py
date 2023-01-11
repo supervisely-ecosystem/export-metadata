@@ -62,7 +62,8 @@ def export_project_images_metadata(api: sly.Api, task_id, context, state, app_lo
     sly.fs.archive_directory(RESULT_DIR, RESULT_ARCHIVE)
     app_logger.info("Result directory is archived")
     progress.iter_done_report()
-    remote_archive_path = "/ApplicationsData/Export-Metadata/{}/{}".format(task_id, ARCHIVE_NAME)
+    remote_archive_path = os.path.join(
+        sly.team_files.RECOMMENDED_EXPORT_PATH, "ApplicationsData/Export-Metadata/{}/{}".format(task_id, ARCHIVE_NAME))
 
     upload_progress = []
     def _print_progress(monitor, upload_progress):
