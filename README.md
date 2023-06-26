@@ -1,5 +1,5 @@
 <div align="center" markdown>
-<img src="https://i.imgur.com/segnZCF.png"/>
+<img src="media/poster.png"/>
 
 # Export Metadata
 
@@ -28,15 +28,15 @@ Export Images metadata from project to `json` files.
 
 **Step 2**: Open context menu of your project -> `Download via App` -> `Export Metadata` 
 
-<img src="https://i.imgur.com/4UfXnBy.png" width="600"/>
+<img src="media/htr2.png" width="600"/>
 
 
 ## How to use
 
 After running the application, you will be redirected to the Tasks page. Once application processing has finished, your link for downloading will become available. Click on the file name to download it
 
-<img src="https://i.imgur.com/utZ05Aj.png"/>
+<img src="media/htu.png"/>
 
 **Note** You can also find your images metadata in Team Files->ApplicationData->Export-Metadata->task_id->`projectId_projectName.tar`
 
-<img src="https://i.imgur.com/eBado89.png"/>
+<img src="media/u2.png"/>
