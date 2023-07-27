@@ -1,23 +1,23 @@
 {
-  "name": "Export Metadata",
-  "type": "app",
-  "categories": [
-    "images",
-    "export"
-  ],
-  "description": "Export Images Metadata from Project",
-  "docker_image": "supervisely/base-py-sdk:6.72.70",
-  "instance_version": "6.4.57",
-  "main_script": "src/export_metadata.py",
-  "task_location": "workspace_tasks",
-  "icon": "https://i.imgur.com/ajc46R7.png",
-  "icon_background": "#FFFFFF",
-  "headless": true,
-  "context_menu": {
-    "target": [
-      "images_project"
+    "name": "Export Metadata",
+    "type": "app",
+    "categories": [
+        "images",
+        "export"
     ],
-    "context_root": "Download as"
-  },
-  "poster": "https://i.imgur.com/segnZCF.png"
+    "description": "Export Images Metadata from Project",
+    "docker_image": "supervisely/import-export:0.0.2",
+    "instance_version": "6.4.57",
+    "main_script": "src/export_metadata.py",
+    "task_location": "workspace_tasks",
+    "icon": "https://i.imgur.com/ajc46R7.png",
+    "icon_background": "#FFFFFF",
+    "headless": true,
+    "context_menu": {
+        "target": [
+            "images_project"
+        ],
+        "context_root": "Download as"
+    },
+    "poster": "https://i.imgur.com/segnZCF.png"
 }
