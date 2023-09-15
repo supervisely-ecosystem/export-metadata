@@ -1,5 +1,4 @@
 import os
-from supervisely.io.json import load_json_file
 import supervisely as sly
 from supervisely.app.v1.app_service import AppService
 
@@ -13,26 +12,29 @@ if DATASET_ID is not None:
     DATASET_ID = int(DATASET_ID)
 
 
-def get_meta_from_dataset(api, res_dataset, dataset_id, app_logger):
+def get_meta_from_dataset(api, res_dataset, dataset_id, app_logger, metas_cnt=0):
     img_counter = 0
     images = api.image.get_list(dataset_id)
+    dataset_name = os.path.basename(os.path.normpath(res_dataset))
     for image in images:
         if len(image.meta) >= 1:
+            metas_cnt += 1
             res_image_meta_path = os.path.join(res_dataset, image.name + '.json')
             sly.io.json.dump_json_file(image.meta, res_image_meta_path)
 
         if len(image.meta) == 0:
-            img_counter = img_counter + 1
-            app_logger.info(f"{image.name} in {os.path.basename(os.path.normpath(res_dataset))} dataset does not contain metadata.")
+            img_counter += 1
+            app_logger.info(f"{image.name} in {dataset_name} dataset does not contain metadata.")
             continue
 
     if img_counter >= 1:
-        app_logger.warn(
-            f"{img_counter}/{len(images)} images in {os.path.basename(os.path.normpath(res_dataset))} dataset does not contain metadata. {img_counter} Images will be skipped.")
+        app_logger.info(
+            f"{img_counter}/{len(images)} images in {dataset_name} dataset does not contain metadata. {img_counter} Images will be skipped.")
 
     if img_counter == len(images):
-        raise Exception("No metadata to download")
+        app_logger.warn(f"No metadata to download from dataset {dataset_name}")
 
+    return metas_cnt
 
 @my_app.callback("export_project_images_metadata")
 @sly.timeit
@@ -43,12 +45,13 @@ def export_project_images_metadata(api: sly.Api, task_id, context, state, app_lo
     sly.fs.mkdir(RESULT_DIR)
     ARCHIVE_NAME = result_dir_name + ".tar"
     RESULT_ARCHIVE = os.path.join(my_app.data_dir, ARCHIVE_NAME)
+    metas_cnt = 0
     if DATASET_ID:
         dataset_info = api.dataset.get_info_by_id(DATASET_ID)
         progress = sly.Progress('Get meta from images in {!r} dataset'.format(dataset_info.name), len(api.dataset.get_list(PROJECT_ID)))
         res_dataset = os.path.join(RESULT_DIR, dataset_info.name)
         sly.fs.mkdir(res_dataset)
-        get_meta_from_dataset(api, res_dataset, DATASET_ID, app_logger)
+        metas_cnt = get_meta_from_dataset(api, res_dataset, DATASET_ID, app_logger, metas_cnt)
     else:
         datasets = api.dataset.get_list(PROJECT_ID)
         for dataset in datasets:
@@ -56,29 +59,32 @@ def export_project_images_metadata(api: sly.Api, task_id, context, state, app_lo
                                     app_logger)
             res_dataset = os.path.join(RESULT_DIR, dataset.name)
             sly.fs.mkdir(res_dataset)
-            get_meta_from_dataset(api, res_dataset, dataset.id, app_logger)
+            metas_cnt = get_meta_from_dataset(api, res_dataset, dataset.id, app_logger, metas_cnt)
 
-    RESULT_DIR = os.path.join(my_app.data_dir, result_dir_name)
-    sly.fs.archive_directory(RESULT_DIR, RESULT_ARCHIVE)
-    app_logger.info("Result directory is archived")
-    progress.iter_done_report()
-    remote_archive_path = os.path.join(
-        sly.team_files.RECOMMENDED_EXPORT_PATH, "ApplicationsData/Export-Metadata/{}/{}".format(task_id, ARCHIVE_NAME))
+    if metas_cnt == 0:
+        app_logger.warn(f"No metadata to download from project {project.name}")
+    else:
+        RESULT_DIR = os.path.join(my_app.data_dir, result_dir_name)
+        sly.fs.archive_directory(RESULT_DIR, RESULT_ARCHIVE)
+        app_logger.info("Result directory is archived")
+        progress.iter_done_report()
+        remote_archive_path = os.path.join(
+            sly.team_files.RECOMMENDED_EXPORT_PATH, "ApplicationsData/Export-Metadata/{}/{}".format(task_id, ARCHIVE_NAME))
 
-    upload_progress = []
-    def _print_progress(monitor, upload_progress):
-        if len(upload_progress) == 0:
-            upload_progress.append(sly.Progress(message="Upload {!r}".format(ARCHIVE_NAME),
-                                                total_cnt=monitor.len,
-                                                ext_logger=app_logger,
-                                                is_size=True))
-        upload_progress[0].set_current_value(monitor.bytes_read)
+        upload_progress = []
+        def _print_progress(monitor, upload_progress):
+            if len(upload_progress) == 0:
+                upload_progress.append(sly.Progress(message="Upload {!r}".format(ARCHIVE_NAME),
+                                                    total_cnt=monitor.len,
+                                                    ext_logger=app_logger,
+                                                    is_size=True))
+            upload_progress[0].set_current_value(monitor.bytes_read)
 
-    file_info = api.file.upload(TEAM_ID, RESULT_ARCHIVE, remote_archive_path, lambda m: _print_progress(m, upload_progress))
-    app_logger.info("Uploaded to Team-Files: {!r}".format(file_info.storage_path))
-    api.task.set_output_archive(task_id, file_info.id, ARCHIVE_NAME, file_url=file_info.storage_path)
+        file_info = api.file.upload(TEAM_ID, RESULT_ARCHIVE, remote_archive_path, lambda m: _print_progress(m, upload_progress))
+        app_logger.info("Uploaded to Team-Files: {!r}".format(file_info.storage_path))
+        api.task.set_output_archive(task_id, file_info.id, ARCHIVE_NAME, file_url=file_info.storage_path)
 
-    sly.fs.remove_dir(RESULT_DIR)
+        sly.fs.remove_dir(RESULT_DIR)
 
     my_app.stop()
 
