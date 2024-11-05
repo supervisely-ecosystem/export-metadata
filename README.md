@@ -11,10 +11,10 @@
   <a href="#How-To-Use">How To Use</a>
 </p>
 
-[![](https://img.shields.io/badge/slack-chat-green.svg?logo=slack)](https://supervise.ly/slack)
+[![](https://img.shields.io/badge/slack-chat-green.svg?logo=slack)](https://supervisely.com/slack)
 ![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/supervisely-ecosystem/export-metadata)
-[![views](https://app.supervise.ly/img/badges/views/supervisely-ecosystem/export-metadata.png)](https://supervise.ly)
-[![runs](https://app.supervise.ly/img/badges/runs/supervisely-ecosystem/export-metadata.png)](https://supervise.ly)
+[![views](https://app.supervisely.com/img/badges/views/supervisely-ecosystem/export-metadata.png)](https://supervisely.com)
+[![runs](https://app.supervisely.com/img/badges/runs/supervisely-ecosystem/export-metadata.png)](https://supervisely.com)
 
 </div>
 
@@ -24,7 +24,7 @@ Export Images metadata from project to `json` files.
 
 
 ## How To Run 
-**Step 1**: Add app to your team from [Ecosystem](https://ecosystem.supervise.ly/apps/export-metadata) if it is not there.
+**Step 1**: Add app to your team from [Ecosystem](https://ecosystem.supervisely.com/apps/export-metadata) if it is not there.
 
 **Step 2**: Open context menu of your project -> `Download via App` -> `Export Metadata` 
 
