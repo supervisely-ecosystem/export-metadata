@@ -24,7 +24,7 @@ Export Images metadata from project to `json` files.
 
 
 ## How To Run 
-**Step 1**: Add app to your team from [Ecosystem](https://ecosystem.supervisely.com/apps/export-metadata) if it is not there.
+**Step 1**: Add app to your team from [Ecosystem](../../../../supervisely-ecosystem/export-metadata) if it is not there.
 
 **Step 2**: Open context menu of your project -> `Download via App` -> `Export Metadata` 
 
