@@ -1,2 +1,3 @@
 git+https://github.com/supervisely/supervisely.git@upd-app-service
+protobuf==3.20.3
 # supervisely==6.73.564
