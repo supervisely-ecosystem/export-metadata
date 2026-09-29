@@ -6,8 +6,8 @@
     "export"
   ],
   "description": "Export Images Metadata from Project",
-  "docker_image": "supervisely/base-py-sdk:6.73.564",
-  "instance_version": "6.15.60",
+  "docker_image": "supervisely/base-py-sdk:6.74.34",
+  "instance_version": "6.17.22",
   "main_script": "src/main.py",
   "task_location": "workspace_tasks",
   "icon": "https://i.imgur.com/ajc46R7.png",
